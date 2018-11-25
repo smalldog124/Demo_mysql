@@ -1,6 +1,7 @@
 package api_test
 
 import (
+	"Demo_mysql/model"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
