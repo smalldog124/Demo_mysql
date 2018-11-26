@@ -11,3 +11,7 @@ type User struct {
 	CreatedTime time.Time `json:"created_time"`
 	UpdatedTime time.Time `json:"updated_time"`
 }
+
+type UserInfo struct {
+	User []User `json:"user"`
+}

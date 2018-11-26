@@ -31,3 +31,17 @@ func (api UserAPI) CreatUserHandler(writer http.ResponseWriter, request *http.Re
 		log.Printf("error encodeing response %s", err.Error())
 	}
 }
+
+func (api UserAPI) GetAllUserHandler(writer http.ResponseWriter, r *http.Request) {
+	var user model.UserInfo
+	users, err := api.UserRepository.GeatAllUser()
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+	}
+	user.User = users
+	writer.WriteHeader(http.StatusOK)
+	writer.Header().Set("Context-Type", "application/json")
+	if err := json.NewEncoder(writer).Encode(user); err != nil {
+		log.Printf("error encodeing response %s", err.Error())
+	}
+}

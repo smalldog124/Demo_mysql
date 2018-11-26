@@ -46,8 +46,8 @@ func Test_CreateUserHandler_Input_User_Should_Be_User(t *testing.T) {
 	assert.Equal(t, expected, string(actual))
 }
 
-func Test_GetAllUser_Shoudl_Be_UserInfo(t *testing.T) {
-	expected := `user:[{"user_id":"1","first_name":"Smalldog","last_name":"Adison","addess":"123 californear","phone_number":"092-3994-212","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}]
+func Test_GetAllUserHandler_Shoudl_Be_UserInfo(t *testing.T) {
+	expected := `{"user":[{"user_id":"1","first_name":"Smalldog","last_name":"Adison","addess":"123 californear","phone_number":"092-3994-212","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}]}
 `
 	request := httptest.NewRequest("GET", "/api/v1/user", nil)
 	writer := httptest.NewRecorder()
@@ -56,7 +56,7 @@ func Test_GetAllUser_Shoudl_Be_UserInfo(t *testing.T) {
 	}
 
 	testRoute := mux.NewRouter()
-	testRoute.HandleFunc("/api/v1/user", userAPI.GetAllUser).Methods("GET")
+	testRoute.HandleFunc("/api/v1/user", userAPI.GetAllUserHandler).Methods("GET")
 	testRoute.ServeHTTP(writer, request)
 
 	response := writer.Result()
