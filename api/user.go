@@ -52,7 +52,7 @@ func (api UserAPI) GetAllUserHandler(writer http.ResponseWriter, request *http.R
 func (api UserAPI) GetUserByIdHandler(writer http.ResponseWriter, request *http.Request) {
 	palamiter := mux.Vars(request)
 	userID := palamiter["id"]
-	user, err := api.UserRepository.GetUserByid(userID)
+	user, err := api.UserRepository.GetUserById(userID)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
