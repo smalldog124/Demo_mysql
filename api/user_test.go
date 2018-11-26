@@ -65,3 +65,23 @@ func Test_GetAllUserHandler_Shoudl_Be_UserInfo(t *testing.T) {
 	assert.Equal(t, http.StatusOK, response.StatusCode)
 	assert.Equal(t, expected, string(actual))
 }
+
+func Test_GetUserByIdHandler_Input_ID_1_Should_Be_User_Name_Smalldog(t *testing.T) {
+	expected := `{"user_id":"1","first_name":"Smalldog","last_name":"Adison","addess":"123 californear","phone_number":"092-3994-212","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}
+`
+	request := httptest.NewRequest("GET", "/api/v1/user/1", nil)
+	writer := httptest.NewRecorder()
+	userAPI := api.UserAPI{
+		UserRepository: &mockUserRepository{},
+	}
+
+	testRoute := mux.NewRouter()
+	testRoute.HandleFunc("/api/v1/user/{id}", userAPI.GetUserByIdHandler)
+	testRoute.ServeHTTP(writer, request)
+
+	response := writer.Result()
+	actual, _ := ioutil.ReadAll(response.Body)
+
+	assert.Equal(t, http.StatusOK, response.StatusCode)
+	assert.Equal(t, expected, string(actual))
+}

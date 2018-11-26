@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type UserAPI struct {
@@ -28,20 +30,36 @@ func (api UserAPI) CreatUserHandler(writer http.ResponseWriter, request *http.Re
 	writer.WriteHeader(http.StatusCreated)
 	writer.Header().Set("Context-Type", "application/json")
 	if err := json.NewEncoder(writer).Encode(user); err != nil {
-		log.Printf("error encodeing response %s", err.Error())
+		log.Printf("error encodeing CreatUserHandler response %s", err.Error())
 	}
 }
 
-func (api UserAPI) GetAllUserHandler(writer http.ResponseWriter, r *http.Request) {
+func (api UserAPI) GetAllUserHandler(writer http.ResponseWriter, request *http.Request) {
 	var user model.UserInfo
-	users, err := api.UserRepository.GeatAllUser()
+	users, err := api.UserRepository.GetAllUser()
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	user.User = users
 	writer.WriteHeader(http.StatusOK)
 	writer.Header().Set("Context-Type", "application/json")
 	if err := json.NewEncoder(writer).Encode(user); err != nil {
-		log.Printf("error encodeing response %s", err.Error())
+		log.Printf("error encodeing GetAllUserHandler response %s", err.Error())
+	}
+}
+
+func (api UserAPI) GetUserByIdHandler(writer http.ResponseWriter, request *http.Request) {
+	palamiter := mux.Vars(request)
+	userID := palamiter["id"]
+	user, err := api.UserRepository.GetUserByid(userID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	writer.WriteHeader(http.StatusOK)
+	writer.Header().Set("Context-Type", "application/json")
+	if err := json.NewEncoder(writer).Encode(user); err != nil {
+		log.Printf("error encodeing GetUserByIdHandler respondr %s", err.Error())
 	}
 }

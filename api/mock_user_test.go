@@ -19,7 +19,7 @@ func (mockUser mockUserRepository) CreateUser(model.User) (model.User, error) {
 		UpdatedTime: fixedTime,
 	}, nil
 }
-func (mockUser mockUserRepository) GeatAllUser() ([]model.User, error) {
+func (mockUser mockUserRepository) GetAllUser() ([]model.User, error) {
 	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
 	return []model.User{
 		{
