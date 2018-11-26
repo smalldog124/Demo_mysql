@@ -8,7 +8,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(model.User) (model.User, error)
-	GeatAllUser() ([]model.User, error)
+	GetAllUser() ([]model.User, error)
 }
 
 type RepositoryMysql struct {
