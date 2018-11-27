@@ -10,6 +10,7 @@ type UserRepository interface {
 	CreateUser(model.User) (model.User, error)
 	GetAllUser() ([]model.User, error)
 	GetUserById(string) (model.User, error)
+	EditeUser(string) (model.User, error)
 }
 
 type RepositoryMysql struct {

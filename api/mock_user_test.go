@@ -46,3 +46,16 @@ func (mockUser mockUserRepository) GetUserById(userID string) (model.User, error
 		UpdatedTime: fixedTime,
 	}, nil
 }
+
+func (mockUser mockUserRepository) EditeUser(string) (model.User, error) {
+	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
+	return model.User{
+		UserID:      "1",
+		FristName:   "Lek",
+		LastName:    "Adison",
+		Address:     "123 californear",
+		PhoneNumber: "098-4772-211",
+		CreatedTime: fixedTime,
+		UpdatedTime: fixedTime,
+	}, nil
+}
