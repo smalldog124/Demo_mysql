@@ -89,18 +89,8 @@ func Test_GetUserByIdHandler_Input_ID_1_Should_Be_User_Name_Smalldog(t *testing.
 func Test_EditUserHandler_Input_User_ID_1_And_Phone_Number_0984772211_Shoud_Be_User_Edited(t *testing.T) {
 	expected := `{"user_id":"1","first_name":"Lek","last_name":"Adison","addess":"123 californear","phone_number":"098-4772-211","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}
 `
-	// fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-30")
-	// user := model.User{
-	// 	UserID:      "1",
-	// 	FristName:   "Lek",
-	// 	LastName:    "Adison",
-	// 	Address:     "123 californear",
-	// 	PhoneNumber: "092-3994-211",
-	// 	CreatedTime: fixedTime,
-	// 	UpdatedTime: fixedTime,
-	// }
-	// userJson, _ := json.Marshal(user)
-	request := httptest.NewRequest("PUT", "/api/v1/user/1", bytes.NewBufferString(expected))
+	user := `{"user_id":"1","first_name":"Lek","last_name":"Adison","addess":"123 californear","phone_number":"098-4772-211","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}`
+	request := httptest.NewRequest("PUT", "/api/v1/user/1", bytes.NewBufferString(user))
 	writer := httptest.NewRecorder()
 	userAPI := api.UserAPI{
 		UserRepository: &mockUserRepository{},
