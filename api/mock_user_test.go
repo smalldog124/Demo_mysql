@@ -59,3 +59,7 @@ func (mockUser mockUserRepository) EditeUser(string) (model.User, error) {
 		UpdatedTime: fixedTime,
 	}, nil
 }
+
+func (mockUser mockUserRepository) DeleteUser(string) error {
+	return nil
+}

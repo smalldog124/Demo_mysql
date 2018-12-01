@@ -85,3 +85,14 @@ func (api UserAPI) EditUserHandler(writer http.ResponseWriter, request *http.Req
 		log.Printf("error encodeing EditeUserHandler respondr %s", err.Error())
 	}
 }
+
+func (api UserAPI) DeleteUserHandler(writer http.ResponseWriter, request *http.Request) {
+	palamiter := mux.Vars(request)
+	userID := palamiter["id"]
+	err := api.UserRepository.DeleteUser(userID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	writer.WriteHeader(http.StatusOK)
+}

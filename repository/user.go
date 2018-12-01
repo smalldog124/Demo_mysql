@@ -11,6 +11,7 @@ type UserRepository interface {
 	GetAllUser() ([]model.User, error)
 	GetUserById(string) (model.User, error)
 	EditeUser(string) (model.User, error)
+	DeleteUser(string) error
 }
 
 type RepositoryMysql struct {

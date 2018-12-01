@@ -106,3 +106,19 @@ func Test_EditUserHandler_Input_User_ID_1_And_Phone_Number_0984772211_Shoud_Be_U
 	assert.Equal(t, http.StatusOK, response.StatusCode)
 	assert.Equal(t, expected, string(actual))
 }
+
+func Test_DeleteUserHandler_Input_User_ID_1_And_Phone_Number_0984772211_Shoud_Be_User_Edited(t *testing.T) {
+	request := httptest.NewRequest("DELETE", "/api/v1/user/1", nil)
+	writer := httptest.NewRecorder()
+	userAPI := api.UserAPI{
+		UserRepository: &mockUserRepository{},
+	}
+
+	testRoute := mux.NewRouter()
+	testRoute.HandleFunc("/api/v1/user/{id}", userAPI.DeleteUserHandler).Methods("DELETE")
+	testRoute.ServeHTTP(writer, request)
+
+	response := writer.Result()
+
+	assert.Equal(t, http.StatusOK, response.StatusCode)
+}
