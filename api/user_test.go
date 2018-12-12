@@ -16,7 +16,7 @@ import (
 )
 
 func Test_CreateUserHandler_Input_User_Should_Be_User(t *testing.T) {
-	expected := `{"user_id":"1","first_name":"Smalldog","last_name":"Adison","addess":"123 californear","phone_number":"092-3994-212","created_time":"0001-01-01T00:00:00Z","updated_time":"0001-01-01T00:00:00Z"}
+	expectedUserID := `{"user_id":1}
 `
 	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
 	user := model.User{
@@ -43,7 +43,7 @@ func Test_CreateUserHandler_Input_User_Should_Be_User(t *testing.T) {
 	actual, _ := ioutil.ReadAll(response.Body)
 
 	assert.Equal(t, http.StatusCreated, response.StatusCode)
-	assert.Equal(t, expected, string(actual))
+	assert.Equal(t, expectedUserID, string(actual))
 }
 
 func Test_GetAllUserHandler_Shoudl_Be_UserInfo(t *testing.T) {

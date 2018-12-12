@@ -17,19 +17,20 @@ type UserAPI struct {
 
 func (api UserAPI) CreatUserHandler(writer http.ResponseWriter, request *http.Request) {
 	var newUser model.User
+	var responseNewUser model.ResponseNewUser
 	body, err := ioutil.ReadAll(request.Body)
 	if err = json.Unmarshal(body, &newUser); err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	user, err := api.UserRepository.CreateUser(newUser)
+	responseNewUser.UserID, err = api.UserRepository.CreateUser(newUser)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	writer.WriteHeader(http.StatusCreated)
 	writer.Header().Set("Context-Type", "application/json")
-	if err := json.NewEncoder(writer).Encode(user); err != nil {
+	if err := json.NewEncoder(writer).Encode(responseNewUser); err != nil {
 		log.Printf("error encodeing CreatUserHandler response %s", err.Error())
 	}
 }
