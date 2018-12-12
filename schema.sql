@@ -1,0 +1,2 @@
+
+CREATE TABLE `smalldogShop`.`user` ( `user_id` INT(3) NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(53) NOT NULL , `last_name` VARCHAR(53) NOT NULL , `addess` VARCHAR(255) NOT NULL , `phone_number` VARCHAR(12) NOT NULL , `created_time` DATETIME NOT NULL , `updated_time` DATETIME NOT NULL , PRIMARY KEY (`user_id`)) ENGINE = InnoDB;
