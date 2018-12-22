@@ -10,7 +10,7 @@ import (
 type UserRepository interface {
 	CreateUser(model.User) (int64, error)
 	GetAllUser() ([]model.User, error)
-	GetUserById(string) (model.User, error)
+	GetUserById(int) (model.User, error)
 	EditeUser(string) (model.User, error)
 	DeleteUser(string) error
 }
@@ -34,5 +34,12 @@ func (repository RepositoryMysql) GetAllUser() ([]model.User, error) {
 	var user []model.User
 	statement := `SELECT user_id,first_name,last_name,addess,phone_number,created_time,updated_time From user`
 	err := repository.ConnectionDB.Select(&user, statement)
+	return user, err
+}
+
+func (repository RepositoryMysql) GetUserById(userID int) (model.User, error) {
+	var user model.User
+	statement := `SELECT user_id,first_name,last_name,addess,phone_number,created_time,updated_time From user WHERE user_id=?`
+	err := repository.ConnectionDB.Get(&user, statement, userID)
 	return user, err
 }

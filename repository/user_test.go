@@ -63,3 +63,23 @@ func Test_GetAllUser_Should_Be_Array_User(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, newUser, users)
 }
+
+func Test_GetUserByID_Input_ID_7_Should_Be_User_Smalldog(t *testing.T) {
+	defer userRepository.ConnectionDB.Close()
+	fixedTime, _ := time.Parse("2006-01-02", "2018-08-25")
+	expectedUser := model.User{
+		UserID:      "7",
+		FristName:   "Smalldog",
+		LastName:    "Adison",
+		Address:     "123 californear",
+		PhoneNumber: "092-3994-212",
+		CreatedTime: fixedTime,
+		UpdatedTime: fixedTime,
+	}
+
+	userID := 7
+	users, err := userRepository.GetUserById(userID)
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, expectedUser, users)
+}
