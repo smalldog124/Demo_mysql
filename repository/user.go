@@ -2,6 +2,7 @@ package repository
 
 import (
 	"Demo_mysql/model"
+	"log"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -20,10 +21,18 @@ type RepositoryMysql struct {
 
 func (repository RepositoryMysql) CreateUser(newUser model.User) (int64, error) {
 	statement := `INSERT INTO user (first_name,last_name,addess,phone_number,created_time,updated_time) VALUES (?,?,?,?,?,?)`
+	log.Print(newUser.CreatedTime)
 	tx := repository.ConnectionDB.MustBegin()
 	resual := tx.MustExec(statement, newUser.FristName, newUser.LastName, newUser.Address, newUser.PhoneNumber, newUser.CreatedTime, newUser.UpdatedTime)
 	if err := tx.Commit(); err != nil {
 		return 0, err
 	}
 	return resual.LastInsertId()
+}
+
+func (repository RepositoryMysql) GetAllUser() ([]model.User, error) {
+	var user []model.User
+	statement := `SELECT user_id,first_name,last_name,addess,phone_number,created_time,updated_time From user`
+	err := repository.ConnectionDB.Select(&user, statement)
+	return user, err
 }

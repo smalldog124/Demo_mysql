@@ -4,7 +4,6 @@ import (
 	"Demo_mysql/model"
 	"Demo_mysql/repository"
 	"fmt"
-	"log"
 	"testing"
 	"time"
 
@@ -21,19 +20,15 @@ const (
 	database = "smalldogShop"
 )
 
-func Test_CreateUser_Input_User_Shoul_Be_NewUser(t *testing.T) {
-	urlSql := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", username, password, host, port, database)
-	db, err := sqlx.Connect("mysql", urlSql)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	log.Println("connect sucessfull")
-	defer db.Close()
-	userRepository := repository.RepositoryMysql{
-		ConnectionDB: db,
-	}
+var urlSql = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", username, password, host, port, database)
+var db, _ = sqlx.Connect("mysql", urlSql)
+var userRepository = repository.RepositoryMysql{
+	ConnectionDB: db,
+}
 
-	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
+func Test_CreateUser_Input_User_Shoul_Be_NewUser(t *testing.T) {
+	defer userRepository.ConnectionDB.Close()
+	fixedTime, _ := time.Parse("2006-01-02", "2018-08-25")
 	newUser := model.User{
 		FristName:   "Smalldog",
 		LastName:    "Adison",
@@ -43,8 +38,28 @@ func Test_CreateUser_Input_User_Shoul_Be_NewUser(t *testing.T) {
 		UpdatedTime: fixedTime,
 	}
 
-	lastedUser, err := userRepository.CreateUser(newUser)
+	_, err := userRepository.CreateUser(newUser)
 
 	assert.Equal(t, nil, err)
-	assert.Equal(t, newUser, lastedUser)
+}
+
+func Test_GetAllUser_Should_Be_Array_User(t *testing.T) {
+	defer userRepository.ConnectionDB.Close()
+	fixedTime, _ := time.Parse("2006-01-02", "2018-08-25")
+	newUser := []model.User{
+		{
+			UserID:      "7",
+			FristName:   "Smalldog",
+			LastName:    "Adison",
+			Address:     "123 californear",
+			PhoneNumber: "092-3994-212",
+			CreatedTime: fixedTime,
+			UpdatedTime: fixedTime,
+		},
+	}
+
+	users, err := userRepository.GetAllUser()
+
+	assert.Equal(t, nil, err)
+	assert.Equal(t, newUser, users)
 }
