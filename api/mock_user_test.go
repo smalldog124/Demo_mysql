@@ -25,7 +25,7 @@ func (mockUser mockUserRepository) GetAllUser() ([]model.User, error) {
 	}, nil
 }
 
-func (mockUser mockUserRepository) GetUserById(userID string) (model.User, error) {
+func (mockUser mockUserRepository) GetUserById(int) (model.User, error) {
 	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
 	return model.User{
 		UserID:      "1",
@@ -38,7 +38,7 @@ func (mockUser mockUserRepository) GetUserById(userID string) (model.User, error
 	}, nil
 }
 
-func (mockUser mockUserRepository) EditeUser(string) (model.User, error) {
+func (mockUser mockUserRepository) EditeUser(int, model.User) (model.User, error) {
 	fixedTime, _ := time.Parse("2006-Jan-22", "2018-Oct-25")
 	return model.User{
 		UserID:      "1",

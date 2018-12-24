@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -53,7 +54,8 @@ func (api UserAPI) GetAllUserHandler(writer http.ResponseWriter, request *http.R
 func (api UserAPI) GetUserByIdHandler(writer http.ResponseWriter, request *http.Request) {
 	palamiter := mux.Vars(request)
 	userID := palamiter["id"]
-	user, err := api.UserRepository.GetUserById(userID)
+	userIDPathInt, err := strconv.Atoi(userID)
+	user, err := api.UserRepository.GetUserById(userIDPathInt)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -69,13 +71,14 @@ func (api UserAPI) EditUserHandler(writer http.ResponseWriter, request *http.Req
 	var dataUser model.User
 	palamiter := mux.Vars(request)
 	userID := palamiter["id"]
+	userIDPathInt, err := strconv.Atoi(userID)
 	body, err := ioutil.ReadAll(request.Body)
 	if err = json.Unmarshal(body, &dataUser); err != nil {
 		log.Printf("error decodeing EditeUserHandler %s", err.Error())
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	user, err := api.UserRepository.EditeUser(userID)
+	user, err := api.UserRepository.EditeUser(userIDPathInt, dataUser)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
