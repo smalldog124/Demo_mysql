@@ -83,3 +83,21 @@ func Test_GetUserByID_Input_ID_7_Should_Be_User_Smalldog(t *testing.T) {
 	assert.Equal(t, nil, err)
 	assert.Equal(t, expectedUser, users)
 }
+
+func Test_EditeUser_Input_User_Name_Jone_Should_Be_User_Jone(t *testing.T) {
+	defer userRepository.ConnectionDB.Close()
+	fixedTime, _ := time.Parse("2006-01-02", "2018-12-24")
+	user := model.User{
+		FristName:   "Jone",
+		LastName:    "Adison",
+		Address:     "123 californear",
+		PhoneNumber: "092-3994-212",
+		UpdatedTime: fixedTime,
+	}
+	userID := 8
+
+	actualUser, err := userRepository.EditeUser(userID, user)
+
+	assert.Equal(t, nil, err)
+	assert.True(t, actualUser == 1 || actualUser == 0)
+}
