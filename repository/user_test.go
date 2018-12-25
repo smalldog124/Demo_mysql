@@ -77,7 +77,7 @@ func Test_GetUserByID_Input_ID_7_Should_Be_User_Smalldog(t *testing.T) {
 		UpdatedTime: fixedTime,
 	}
 
-	userID := 7
+	userID := 8
 	users, err := userRepository.GetUserById(userID)
 
 	assert.Equal(t, nil, err)

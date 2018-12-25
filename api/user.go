@@ -78,22 +78,19 @@ func (api UserAPI) EditUserHandler(writer http.ResponseWriter, request *http.Req
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	user, err := api.UserRepository.EditeUser(userIDPathInt, dataUser)
+	_, err = api.UserRepository.EditeUser(userIDPathInt, dataUser)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	writer.WriteHeader(http.StatusOK)
-	writer.Header().Set("Context-Type", "applcaion/json")
-	if err := json.NewEncoder(writer).Encode(user); err != nil {
-		log.Printf("error encodeing EditeUserHandler respondr %s", err.Error())
-	}
 }
 
 func (api UserAPI) DeleteUserHandler(writer http.ResponseWriter, request *http.Request) {
 	palamiter := mux.Vars(request)
 	userID := palamiter["id"]
-	err := api.UserRepository.DeleteUser(userID)
+	userIDPathInt, err := strconv.Atoi(userID)
+	_, err = api.UserRepository.DeleteUser(userIDPathInt)
 	if err != nil {
 		writer.WriteHeader(http.StatusInternalServerError)
 		return
