@@ -11,7 +11,7 @@ type UserRepository interface {
 	GetAllUser() ([]model.User, error)
 	GetUserById(int) (model.User, error)
 	EditeUser(int, model.User) (model.User, error)
-	DeleteUser(string) error
+	DeleteUser(int) error
 }
 
 type RepositoryMysql struct {
@@ -46,6 +46,16 @@ func (repository RepositoryMysql) EditeUser(userID int, user model.User) (int64,
 	statement := `UPDATE user SET first_name=?,last_name=?,addess=?,phone_number=?,updated_time=? WHERE user_id=?`
 	tx := repository.ConnectionDB.MustBegin()
 	resual := tx.MustExec(statement, user.FristName, user.LastName, user.Address, user.PhoneNumber, user.UpdatedTime, userID)
+	if err := tx.Commit(); err != nil {
+		return 0, err
+	}
+	return resual.RowsAffected()
+}
+
+func (repository RepositoryMysql) DeleteUser(userID int) (int64, error) {
+	statement := `DELETE FROM user WHERE user_id=?`
+	tx := repository.ConnectionDB.MustBegin()
+	resual := tx.MustExec(statement, userID)
 	if err := tx.Commit(); err != nil {
 		return 0, err
 	}

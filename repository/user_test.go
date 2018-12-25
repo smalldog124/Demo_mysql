@@ -94,9 +94,19 @@ func Test_EditeUser_Input_User_Name_Jone_Should_Be_User_Jone(t *testing.T) {
 		PhoneNumber: "092-3994-212",
 		UpdatedTime: fixedTime,
 	}
-	userID := 8
+	userID := 7
 
 	actualUser, err := userRepository.EditeUser(userID, user)
+
+	assert.Equal(t, nil, err)
+	assert.True(t, actualUser == 1 || actualUser == 0)
+}
+
+func Test_DeleteUser_User_ID_7_Should_Be_Deleted(t *testing.T) {
+	defer userRepository.ConnectionDB.Close()
+	userID := 7
+
+	actualUser, err := userRepository.DeleteUser(userID)
 
 	assert.Equal(t, nil, err)
 	assert.True(t, actualUser == 1 || actualUser == 0)
